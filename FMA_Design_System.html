@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Full Motion Active — Design System v3</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Poppins', sans-serif; background: #F2F2F2; color: #333; }
+.page { max-width: 960px; margin: 0 auto; padding: 48px 24px; }
+.page-header { margin-bottom: 48px; border-bottom: 2px solid #000; padding-bottom: 24px; display:flex; justify-content:space-between; align-items:flex-end; }
+.page-header h1 { font-family: Georgia, serif; font-size: 36px; font-weight: 700; letter-spacing: 0.06em; color: #000; }
+.page-header p { font-size: 13px; color: #888; margin-top: 4px; }
+.page-header .version { font-size: 12px; color: #aaa; }
+.ds-nav { display:flex; gap:6px; flex-wrap:wrap; padding:0 0 32px; border-bottom:1px solid #ddd; margin-bottom:40px; }
+.ds-nav button { font-size:12px; font-weight:500; padding:5px 14px; border-radius:999px; cursor:pointer; border:1px solid #ccc; background:transparent; color:#666; font-family:'Poppins',sans-serif; transition:all .15s; }
+.ds-nav button.active, .ds-nav button:hover { background:#000; color:#fff; border-color:#000; }
+.section { display:none; }
+.section.active { display:block; }
+.label { font-size:11px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:#888; margin-bottom:8px; }
+.section-title { font-size:22px; font-weight:600; color:#000; margin-bottom:32px; }
+.grid2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.grid3 { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+.grid4 { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+.card { background:#fff; border:1px solid #e8e8e8; border-radius:12px; padding:20px; }
+.swatch-block { border-radius:8px; height:80px; display:flex; flex-direction:column; align-items:flex-start; justify-content:flex-end; padding:10px 12px; }
+.swatch-name { font-size:13px; font-weight:600; }
+.swatch-hex  { font-size:11px; opacity:.75; }
+.type-sample { border-bottom:1px solid #eee; padding:16px 0; }
+.type-sample:last-child { border-bottom:none; }
+.type-meta { font-size:11px; color:#aaa; margin-top:4px; }
+.space-row { display:flex; align-items:center; gap:16px; margin-bottom:14px; }
+.space-bar { background:#000; height:8px; border-radius:2px; flex-shrink:0; }
+.space-val { font-size:13px; font-weight:600; min-width:48px; }
+.space-desc { font-size:12px; color:#888; }
+.btn-primary { background:#000; color:#fff; border:none; border-radius:8px; font-size:14px; font-weight:500; padding:12px 28px; cursor:pointer; display:inline-block; font-family:'Poppins',sans-serif; }
+.btn-secondary { background:transparent; color:#000; border:2px solid #000; border-radius:8px; font-size:14px; font-weight:500; padding:10px 28px; cursor:pointer; display:inline-block; font-family:'Poppins',sans-serif; }
+.btn-ghost { background:transparent; color:#888; border:1px solid #ccc; border-radius:8px; font-size:14px; padding:10px 28px; cursor:pointer; display:inline-block; font-family:'Poppins',sans-serif; }
+.badge { display:inline-block; font-size:11px; font-weight:600; padding:4px 12px; border-radius:999px; letter-spacing:.05em; text-transform:uppercase; }
+.product-card { border:1px solid #e8e8e8; border-radius:12px; overflow:hidden; background:#fff; }
+.product-card-img { width:100%; aspect-ratio:1; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:700; letter-spacing:.1em; font-family:Georgia,serif; }
+.product-card-body { padding:14px; }
+.product-card-name { font-size:14px; font-weight:600; }
+.product-card-cat { font-size:12px; color:#888; margin-top:2px; }
+.product-card-price { font-size:14px; font-weight:600; margin-top:10px; }
+.pillar-card { border:1px solid #e8e8e8; border-radius:12px; padding:16px; background:#fff; }
+.pillar-name { font-size:15px; font-weight:600; margin-bottom:4px; }
+.pillar-tag { font-size:11px; color:#888; }
+.pillar-desc { font-size:13px; color:#666; margin-top:8px; line-height:1.6; }
+.voice-row { display:flex; gap:12px; margin-bottom:10px; align-items:flex-start; }
+.voice-tag { font-size:11px; font-weight:600; padding:3px 10px; border-radius:999px; flex-shrink:0; margin-top:2px; }
+.voice-copy { font-size:14px; color:#333; line-height:1.6; }
+.do-tag { background:#e8f5e9; color:#1b5e20; }
+.dont-tag { background:#fce4ec; color:#880e4f; }
+.logo-box { border-radius:12px; display:flex; align-items:center; justify-content:center; padding:2rem; border:1px solid #e8e8e8; }
+.post-card { border:1px solid #e8e8e8; border-radius:12px; overflow:hidden; background:#fff; }
+.post-thumb { width:100%; aspect-ratio:1; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:4px; }
+.post-label { padding:10px 12px 2px; font-size:13px; font-weight:600; }
+.post-sub { padding:0 12px 10px; font-size:11px; color:#888; }
+.row-mb { margin-bottom:32px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="page-header">
+    <div>
+      <h1>FMA DESIGN SYSTEM</h1>
+      <p>Full Motion Active · fullmotionau.com.au</p>
+    </div>
+    <div class="version">Version 3.0 · May 2026</div>
+  </div>
+
+  <nav class="ds-nav" id="nav">
+    <button class="active" data-sec="colors">Colors</button>
+    <button data-sec="type">Typography</button>
+    <button data-sec="logo">Logo</button>
+    <button data-sec="spacing">Spacing</button>
+    <button data-sec="components">Components</button>
+    <button data-sec="collections">Collections</button>
+    <button data-sec="assets">Social assets</button>
+    <button data-sec="voice">Brand voice</button>
+    <button data-sec="strategy">Strategy</button>
+  </nav>
+
+  <!-- COLORS -->
+  <div id="sec-colors" class="section active">
+    <p class="section-title">Color palette</p>
+    <p class="label">Core palette</p>
+    <div class="grid4 row-mb">
+      <div><div class="swatch-block" style="background:#000;"><span class="swatch-name" style="color:#fff;">Black</span><span class="swatch-hex" style="color:#fff;">#000000</span></div><p style="font-size:12px;color:#888;margin-top:6px;">Primary</p></div>
+      <div><div class="swatch-block" style="background:#fff;border:1px solid #ddd;"><span class="swatch-name" style="color:#000;">White</span><span class="swatch-hex" style="color:#000;">#FFFFFF</span></div><p style="font-size:12px;color:#888;margin-top:6px;">Primary</p></div>
+      <div><div class="swatch-block" style="background:#333;"><span class="swatch-name" style="color:#fff;">Dark grey</span><span class="swatch-hex" style="color:#fff;">#333333</span></div><p style="font-size:12px;color:#888;margin-top:6px;">Body copy</p></div>
+      <div><div class="swatch-block" style="background:#F2F2F2;border:1px solid #ddd;"><span class="swatch-name" style="color:#333;">Light grey</span><span class="swatch-hex" style="color:#333;">#F2F2F2</span></div><p style="font-size:12px;color:#888;margin-top:6px;">Backgrounds</p></div>
+    </div>
+    <p class="label">Confirmed product colourways</p>
+    <div class="grid4 row-mb">
+      <div><div class="swatch-block" style="background:#D4A5A5;"><span class="swatch-name" style="color:#fff;">Dusty pink</span><span class="swatch-hex" style="color:#fff;">#D4A5A5</span></div><p style="font-size:12px;color:#888;margin-top:6px;">Aura · Pulse · Ignite · Element</p></div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div class="swatch-block" style="background:#141975;height:56px;"><span class="swatch-name" style="color:#fff;">Prime blue</span><span class="swatch-hex" style="color:#fff;">#141975</span></div>
+        <div class="swatch-block" style="background:#4A6B97;height:56px;"><span class="swatch-name" style="color:#fff;">Pulse blue</span><span class="swatch-hex" style="color:#fff;">#4A6B97</span></div>
+        <p style="font-size:12px;color:#888;">Two distinct blues — Prime (deep navy) and Pulse (mid steel blue)</p>
+      </div>
+      <div><div class="swatch-block" style="background:#9CAF88;"><span class="swatch-name" style="color:#fff;">Sage</span><span class="swatch-hex" style="color:#fff;">#9CAF88</span></div><p style="font-size:12px;color:#888;margin-top:6px;">Seasonal accent</p></div>
+      <div><div class="swatch-block" style="background:#C8B89A;"><span class="swatch-name" style="color:#fff;">Sand</span><span class="swatch-hex" style="color:#fff;">#C8B89A</span></div><p style="font-size:12px;color:#888;margin-top:6px;">Seasonal accent</p></div>
+    </div>
+    <p class="label">Usage rules</p>
+    <div class="card">
+      <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:#333;line-height:1.7;">
+        <div>Use <strong>black on white</strong> for headlines and primary CTAs — maximum contrast.</div>
+        <div>Use <strong>#F2F2F2</strong> as the page/section background — never as a text colour.</div>
+        <div>Use <strong>#333</strong> for body copy — softer than pure black at smaller sizes.</div>
+        <div><strong>Two distinct blues are confirmed:</strong> Prime tee uses deep navy <strong>#141975</strong>; Pulse shorts use mid steel blue <strong>#4A6B97</strong>. Never interchange them — they belong to different products.</div>
+        <div>Seasonal tones (sage, sand) — one at a time, never combined with blue or pink in the same post.</div>
+        <div>Never use neon, bright hues, or high-saturation colours. Keep all accents muted and calm.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div id="sec-type" class="section">
+    <p class="section-title">Typography</p>
+    <div class="card row-mb">
+      <div class="type-sample"><div style="font-family:Georgia,serif;font-size:36px;font-weight:700;letter-spacing:.04em;color:#000;">Move. Breathe. Live.</div><div class="type-meta">Futura — Display · 36px bold · headlines, brand statements</div></div>
+      <div class="type-sample"><div style="font-family:Georgia,serif;font-size:24px;font-weight:700;color:#000;">Stillness in motion.</div><div class="type-meta">Futura — H2 · 24px bold · section headings, collection names</div></div>
+      <div class="type-sample"><div style="font-family:Georgia,serif;font-size:18px;font-weight:700;color:#000;">Progress is made by those who never stop moving.</div><div class="type-meta">Futura — H3 · 18px bold · taglines, product names</div></div>
+      <div class="type-sample"><div style="font-size:16px;font-weight:400;color:#333;line-height:1.7;">Designed for women who live actively — not for gym culture, but for the freedom to move outdoors, by the coast, in stillness, in motion.</div><div class="type-meta">Poppins — Body · 16px regular · product descriptions, captions, longer copy</div></div>
+      <div class="type-sample"><div style="font-size:13px;color:#888;">Leggings · Sports Bras · Shorts · T-Shirts</div><div class="type-meta">Poppins — Caption · 13px regular · labels, metadata, tags</div></div>
+      <div class="type-sample"><div style="font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:#888;">Collection · Aura</div><div class="type-meta">Poppins — Micro label · 11px 500 uppercase · categories, tags</div></div>
+    </div>
+    <div class="grid3">
+      <div class="card"><p class="label" style="margin-bottom:10px;">Brand — Futura</p><p style="font-family:Georgia,serif;font-size:24px;font-weight:700;color:#000;">Aa Bb Cc</p><p style="font-size:12px;color:#888;margin-top:8px;">Logos, brand statements, collection names, website headings.</p></div>
+      <div class="card"><p class="label" style="margin-bottom:10px;">Social headlines — Bebas Neue</p><p style="font-size:28px;font-weight:700;letter-spacing:.06em;color:#000;line-height:1;">MOVE.<br>BREATHE.</p><p style="font-size:12px;color:#888;margin-top:8px;">Bold condensed all-caps. Used for social post impact headlines only — never in Shopify UI.</p></div>
+      <div class="card"><p class="label" style="margin-bottom:10px;">Body — Poppins</p><p style="font-size:22px;font-weight:400;color:#000;">Aa Bb Cc</p><p style="font-size:12px;color:#888;margin-top:8px;">Body copy, captions, product descriptions, longer text across all channels.</p></div>
+    </div>
+  </div>
+
+  <!-- LOGO -->
+  <div id="sec-logo" class="section">
+    <p class="section-title">Logo</p>
+    <p class="label" style="margin-bottom:12px;">Primary — white on black</p>
+    <div class="logo-box" style="background:#000;border-color:#000;margin-bottom:24px;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 303.75 88.499997" style="width:100%;max-width:380px;height:auto;">
+        <g fill="#ffffff" fill-opacity="1"><g transform="translate(20.622232, 45.245373)"><g><path d="M 21.84375 -28.066406 L 0.878906 -28.066406 L 0.878906 -27.5625 L 3.800781 -27.5625 L 3.800781 -0.5 L 0.878906 -0.5 L 0.878906 0 L 10.984375 0 L 10.984375 -0.5 L 8.058594 -0.5 L 8.058594 -14.117188 L 10.816406 -14.117188 C 13.78125 -14.117188 16.121094 -11.859375 16.371094 -8.601562 L 16.789062 -8.601562 L 16.789062 -20.421875 L 16.371094 -20.421875 C 16.203125 -16.871094 13.78125 -14.699219 10.566406 -14.699219 L 8.058594 -14.699219 L 8.058594 -27.5625 L 13.199219 -27.5625 C 17.582031 -27.5625 20.589844 -25.308594 21.425781 -20.378906 L 21.84375 -20.378906 Z"/></g></g><g transform="translate(44.093624, 45.245373)"><g><path d="M 25.726562 -28.066406 L 19.296875 -28.066406 L 19.296875 -27.5625 L 22.21875 -27.5625 L 22.21875 -8.101562 C 22.21875 -1.796875 17.039062 -0.0429688 13.78125 -0.0429688 C 10.148438 -0.0429688 7.851562 -1.753906 7.851562 -4.96875 L 7.851562 -27.5625 L 10.773438 -27.5625 L 10.773438 -28.066406 L 0.667969 -28.066406 L 0.667969 -27.5625 L 3.589844 -27.5625 L 3.589844 -7.390625 C 3.589844 -1.460938 8.394531 0.460938 13.238281 0.460938 C 18.460938 0.460938 22.804688 -2.089844 22.804688 -8.4375 L 22.804688 -27.5625 L 25.726562 -27.5625 Z"/></g></g><g transform="translate(70.864377, 45.245373)"><g><path d="M 23.222656 -9.105469 L 22.804688 -9.105469 C 22.09375 -3.339844 18.25 -0.5 13.574219 -0.5 L 8.058594 -0.5 L 8.058594 -27.5625 L 10.984375 -27.5625 L 10.984375 -28.066406 L 0.878906 -28.066406 L 0.878906 -27.5625 L 3.800781 -27.5625 L 3.800781 -0.5 L 0.878906 -0.5 L 0.878906 0 L 23.222656 0 Z"/></g></g></g>
+        <g fill="#ffffff" fill-opacity="1"><g transform="translate(95.338095, 45.245373)"><g><path d="M 23.222656 -9.105469 L 22.804688 -9.105469 C 22.09375 -3.339844 18.25 -0.5 13.574219 -0.5 L 8.058594 -0.5 L 8.058594 -27.5625 L 10.984375 -27.5625 L 10.984375 -28.066406 L 0.878906 -28.066406 L 0.878906 -27.5625 L 3.800781 -27.5625 L 3.800781 -0.5 L 0.878906 -0.5 L 0.878906 0 L 23.222656 0 Z"/></g></g></g>
+        <g fill="#ffffff" fill-opacity="1"><g transform="translate(127.746987, 45.245373)"><g><path d="M 30.863281 -0.5 L 27.941406 -0.5 L 27.941406 -27.5625 L 30.863281 -27.5625 L 30.863281 -28.066406 L 23.722656 -28.066406 L 16.164062 -6.179688 L 15.996094 -6.179688 L 7.808594 -28.066406 L 0.460938 -28.066406 L 0.460938 -27.5625 L 3.382812 -27.5625 L 3.382812 -0.5 L 0.460938 -0.5 L 0.460938 0 L 6.890625 0 L 6.890625 -0.5 L 3.96875 -0.5 L 3.96875 -26.855469 L 14.242188 0.585938 L 14.449219 0.585938 L 23.765625 -26.476562 L 23.929688 -26.476562 L 23.929688 -0.5 L 21.007812 -0.5 L 21.007812 0 L 30.863281 0 Z"/></g></g></g>
+        <g fill="#ffffff" fill-opacity="1"><g transform="translate(160.740572, 45.245373)"><g><path d="M 27.0625 -13.53125 C 27.0625 -20.546875 22.761719 -28.566406 14.367188 -28.566406 C 6.390625 -28.566406 1.460938 -20.378906 1.460938 -13.65625 C 1.460938 -6.222656 6.515625 0.5 14.074219 0.5 C 21.464844 0.5 27.0625 -6.015625 27.0625 -13.53125 Z M 22.59375 -13.867188 C 22.59375 -4.425781 19.796875 0 14.285156 0 C 8.476562 0 5.890625 -3.757812 5.890625 -14.535156 C 5.890625 -22.261719 8.226562 -28.066406 14.367188 -28.066406 C 20.632812 -28.066406 22.59375 -22.386719 22.59375 -13.867188 Z"/></g></g><g transform="translate(189.515998, 45.245373)"><g><path d="M 23.636719 -28.066406 L 0.25 -28.066406 L 0.25 -20.046875 L 0.710938 -20.046875 C 1.292969 -23.972656 4.175781 -27.5625 7.476562 -27.5625 L 9.816406 -27.5625 L 9.816406 -0.5 L 6.890625 -0.5 L 6.890625 0 L 16.996094 0 L 16.996094 -0.5 L 14.074219 -0.5 L 14.074219 -27.5625 L 16.414062 -27.5625 C 19.710938 -27.5625 22.59375 -23.972656 23.179688 -20.046875 L 23.636719 -20.046875 Z"/></g></g></g>
+        <g fill="#ffffff" fill-opacity="1"><g transform="translate(214.323832, 45.245373)"><g><path d="M 10.984375 -0.5 L 8.058594 -0.5 L 8.058594 -27.5625 L 10.984375 -27.5625 L 10.984375 -28.066406 L 0.878906 -28.066406 L 0.878906 -27.5625 L 3.800781 -27.5625 L 3.800781 -0.5 L 0.878906 -0.5 L 0.878906 0 L 10.984375 0 Z"/></g></g></g>
+        <g fill="#ffffff" fill-opacity="1"><g transform="translate(227.437729, 45.245373)"><g><path d="M 27.0625 -13.53125 C 27.0625 -20.546875 22.761719 -28.566406 14.367188 -28.566406 C 6.390625 -28.566406 1.460938 -20.378906 1.460938 -13.65625 C 1.460938 -6.222656 6.515625 0.5 14.074219 0.5 C 21.464844 0.5 27.0625 -6.015625 27.0625 -13.53125 Z M 22.59375 -13.867188 C 22.59375 -4.425781 19.796875 0 14.285156 0 C 8.476562 0 5.890625 -3.757812 5.890625 -14.535156 C 5.890625 -22.261719 8.226562 -28.066406 14.367188 -28.066406 C 20.632812 -28.066406 22.59375 -22.386719 22.59375 -13.867188 Z"/></g></g></g>
+        <g fill="#ffffff" fill-opacity="1"><g transform="translate(256.213165, 45.245373)"><g><path d="M 24.890625 -28.066406 L 18.460938 -28.066406 L 18.460938 -27.5625 L 21.382812 -27.5625 L 21.382812 -7.808594 L 21.257812 -7.808594 L 8.3125 -28.066406 L 0.460938 -28.066406 L 0.460938 -27.5625 L 3.382812 -27.5625 L 3.382812 -0.5 L 0.460938 -0.5 L 0.460938 0 L 6.890625 0 L 6.890625 -0.5 L 3.96875 -0.5 L 3.96875 -27.148438 L 4.09375 -27.148438 L 21.675781 0.542969 L 21.96875 0.542969 L 21.96875 -27.5625 L 24.890625 -27.5625 Z"/></g></g></g>
+        <g fill="#ffffff" fill-opacity="1"><g transform="translate(106.317763, 74.102748)"><g><path d="M 13.75 -4.65625 L 4.046875 -4.65625 L 1.96875 0 L 0.046875 0 L 8 -17.40625 L 9.8125 -17.40625 L 17.78125 0 L 15.828125 0 Z M 13.078125 -6.140625 L 8.90625 -15.484375 L 4.71875 -6.140625 Z"/></g></g></g>
+        <g fill="#ffffff" fill-opacity="1"><g transform="translate(123.890664, 74.102748)"><g><path d="M 10.390625 0.15625 C 8.671875 0.15625 7.117188 -0.222656 5.734375 -0.984375 C 4.347656 -1.753906 3.257812 -2.8125 2.46875 -4.15625 C 1.6875 -5.507812 1.296875 -7.023438 1.296875 -8.703125 C 1.296875 -10.378906 1.6875 -11.890625 2.46875 -13.234375 C 3.257812 -14.585938 4.347656 -15.644531 5.734375 -16.40625 C 7.128906 -17.164062 8.691406 -17.546875 10.421875 -17.546875 C 11.710938 -17.546875 12.90625 -17.332031 14 -16.90625 C 15.09375 -16.476562 16.019531 -15.847656 16.78125 -15.015625 L 15.609375 -13.84375 C 14.253906 -15.21875 12.539062 -15.90625 10.46875 -15.90625 C 9.09375 -15.90625 7.835938 -15.585938 6.703125 -14.953125 C 5.578125 -14.328125 4.695312 -13.46875 4.0625 -12.375 C 3.425781 -11.28125 3.109375 -10.054688 3.109375 -8.703125 C 3.109375 -7.335938 3.425781 -6.109375 4.0625 -5.015625 C 4.695312 -3.921875 5.578125 -3.054688 6.703125 -2.421875 C 7.835938 -1.796875 9.09375 -1.484375 10.46875 -1.484375 C 12.550781 -1.484375 14.265625 -2.179688 15.609375 -3.578125 L 16.78125 -2.40625 C 16.019531 -1.582031 15.085938 -0.945312 13.984375 -0.5 C 12.878906 -0.0625 11.679688 0.15625 10.390625 0.15625 Z"/></g></g></g>
+        <g fill="#ffffff" fill-opacity="1"><g transform="translate(141.538136, 74.102748)"><g><path d="M 6.21875 -15.8125 L 0.09375 -15.8125 L 0.09375 -17.40625 L 14.171875 -17.40625 L 14.171875 -15.8125 L 8.046875 -15.8125 L 8.046875 0 L 6.21875 0 Z"/></g></g></g>
+        <g fill="#ffffff" fill-opacity="1"><g transform="translate(155.805263, 74.102748)"><g><path d="M 2.828125 -17.40625 L 4.671875 -17.40625 L 4.671875 0 L 2.828125 0 Z"/></g></g></g>
+        <g fill="#ffffff" fill-opacity="1"><g transform="translate(163.1128, 74.102748)"><g><path d="M 17.296875 -17.40625 L 9.59375 0 L 7.78125 0 L 0.078125 -17.40625 L 2.0625 -17.40625 L 8.71875 -2.28125 L 15.4375 -17.40625 Z"/></g></g></g>
+        <g fill="#ffffff" fill-opacity="1"><g transform="translate(180.08916, 74.102748)"><g><path d="M 15.140625 -1.59375 L 15.140625 0 L 2.828125 0 L 2.828125 -17.40625 L 14.765625 -17.40625 L 14.765625 -15.8125 L 4.671875 -15.8125 L 4.671875 -9.625 L 13.671875 -9.625 L 13.671875 -8.046875 L 4.671875 -8.046875 L 4.671875 -1.59375 Z"/></g></g></g>
+        <path stroke-linecap="round" transform="matrix(0.745786,0,0,0.745786,20.891843,65.150979)" fill="none" d="M 0.501192 0.499417 L 109.67181 0.499417" stroke="#ffffff" stroke-width="1" stroke-opacity="1"/>
+        <path stroke-linecap="round" transform="matrix(0.745786,0,0,0.745786,199.988544,64.778086)" fill="none" d="M 0.502473 0.50183 L 109.667853 0.50183" stroke="#ffffff" stroke-width="1" stroke-opacity="1"/>
+      </svg>
+    </div>
+
+    <p class="label" style="margin-bottom:12px;">Secondary — black on white</p>
+    <div class="logo-box" style="background:#fff;margin-bottom:24px;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 303.75 88.499997" style="width:100%;max-width:380px;height:auto;">
+        <g fill="#000000" fill-opacity="1"><g transform="translate(20.622232, 45.245373)"><g><path d="M 21.84375 -28.066406 L 0.878906 -28.066406 L 0.878906 -27.5625 L 3.800781 -27.5625 L 3.800781 -0.5 L 0.878906 -0.5 L 0.878906 0 L 10.984375 0 L 10.984375 -0.5 L 8.058594 -0.5 L 8.058594 -14.117188 L 10.816406 -14.117188 C 13.78125 -14.117188 16.121094 -11.859375 16.371094 -8.601562 L 16.789062 -8.601562 L 16.789062 -20.421875 L 16.371094 -20.421875 C 16.203125 -16.871094 13.78125 -14.699219 10.566406 -14.699219 L 8.058594 -14.699219 L 8.058594 -27.5625 L 13.199219 -27.5625 C 17.582031 -27.5625 20.589844 -25.308594 21.425781 -20.378906 L 21.84375 -20.378906 Z"/></g></g><g transform="translate(44.093624, 45.245373)"><g><path d="M 25.726562 -28.066406 L 19.296875 -28.066406 L 19.296875 -27.5625 L 22.21875 -27.5625 L 22.21875 -8.101562 C 22.21875 -1.796875 17.039062 -0.0429688 13.78125 -0.0429688 C 10.148438 -0.0429688 7.851562 -1.753906 7.851562 -4.96875 L 7.851562 -27.5625 L 10.773438 -27.5625 L 10.773438 -28.066406 L 0.667969 -28.066406 L 0.667969 -27.5625 L 3.589844 -27.5625 L 3.589844 -7.390625 C 3.589844 -1.460938 8.394531 0.460938 13.238281 0.460938 C 18.460938 0.460938 22.804688 -2.089844 22.804688 -8.4375 L 22.804688 -27.5625 L 25.726562 -27.5625 Z"/></g></g><g transform="translate(70.864377, 45.245373)"><g><path d="M 23.222656 -9.105469 L 22.804688 -9.105469 C 22.09375 -3.339844 18.25 -0.5 13.574219 -0.5 L 8.058594 -0.5 L 8.058594 -27.5625 L 10.984375 -27.5625 L 10.984375 -28.066406 L 0.878906 -28.066406 L 0.878906 -27.5625 L 3.800781 -27.5625 L 3.800781 -0.5 L 0.878906 -0.5 L 0.878906 0 L 23.222656 0 Z"/></g></g></g>
+        <g fill="#000000" fill-opacity="1"><g transform="translate(95.338095, 45.245373)"><g><path d="M 23.222656 -9.105469 L 22.804688 -9.105469 C 22.09375 -3.339844 18.25 -0.5 13.574219 -0.5 L 8.058594 -0.5 L 8.058594 -27.5625 L 10.984375 -27.5625 L 10.984375 -28.066406 L 0.878906 -28.066406 L 0.878906 -27.5625 L 3.800781 -27.5625 L 3.800781 -0.5 L 0.878906 -0.5 L 0.878906 0 L 23.222656 0 Z"/></g></g></g>
+        <g fill="#000000" fill-opacity="1"><g transform="translate(127.746987, 45.245373)"><g><path d="M 30.863281 -0.5 L 27.941406 -0.5 L 27.941406 -27.5625 L 30.863281 -27.5625 L 30.863281 -28.066406 L 23.722656 -28.066406 L 16.164062 -6.179688 L 15.996094 -6.179688 L 7.808594 -28.066406 L 0.460938 -28.066406 L 0.460938 -27.5625 L 3.382812 -27.5625 L 3.382812 -0.5 L 0.460938 -0.5 L 0.460938 0 L 6.890625 0 L 6.890625 -0.5 L 3.96875 -0.5 L 3.96875 -26.855469 L 14.242188 0.585938 L 14.449219 0.585938 L 23.765625 -26.476562 L 23.929688 -26.476562 L 23.929688 -0.5 L 21.007812 -0.5 L 21.007812 0 L 30.863281 0 Z"/></g></g></g>
+        <g fill="#000000" fill-opacity="1"><g transform="translate(160.740572, 45.245373)"><g><path d="M 27.0625 -13.53125 C 27.0625 -20.546875 22.761719 -28.566406 14.367188 -28.566406 C 6.390625 -28.566406 1.460938 -20.378906 1.460938 -13.65625 C 1.460938 -6.222656 6.515625 0.5 14.074219 0.5 C 21.464844 0.5 27.0625 -6.015625 27.0625 -13.53125 Z M 22.59375 -13.867188 C 22.59375 -4.425781 19.796875 0 14.285156 0 C 8.476562 0 5.890625 -3.757812 5.890625 -14.535156 C 5.890625 -22.261719 8.226562 -28.066406 14.367188 -28.066406 C 20.632812 -28.066406 22.59375 -22.386719 22.59375 -13.867188 Z"/></g></g><g transform="translate(189.515998, 45.245373)"><g><path d="M 23.636719 -28.066406 L 0.25 -28.066406 L 0.25 -20.046875 L 0.710938 -20.046875 C 1.292969 -23.972656 4.175781 -27.5625 7.476562 -27.5625 L 9.816406 -27.5625 L 9.816406 -0.5 L 6.890625 -0.5 L 6.890625 0 L 16.996094 0 L 16.996094 -0.5 L 14.074219 -0.5 L 14.074219 -27.5625 L 16.414062 -27.5625 C 19.710938 -27.5625 22.59375 -23.972656 23.179688 -20.046875 L 23.636719 -20.046875 Z"/></g></g></g>
+        <g fill="#000000" fill-opacity="1"><g transform="translate(214.323832, 45.245373)"><g><path d="M 10.984375 -0.5 L 8.058594 -0.5 L 8.058594 -27.5625 L 10.984375 -27.5625 L 10.984375 -28.066406 L 0.878906 -28.066406 L 0.878906 -27.5625 L 3.800781 -27.5625 L 3.800781 -0.5 L 0.878906 -0.5 L 0.878906 0 L 10.984375 0 Z"/></g></g></g>
+        <g fill="#000000" fill-opacity="1"><g transform="translate(227.437729, 45.245373)"><g><path d="M 27.0625 -13.53125 C 27.0625 -20.546875 22.761719 -28.566406 14.367188 -28.566406 C 6.390625 -28.566406 1.460938 -20.378906 1.460938 -13.65625 C 1.460938 -6.222656 6.515625 0.5 14.074219 0.5 C 21.464844 0.5 27.0625 -6.015625 27.0625 -13.53125 Z M 22.59375 -13.867188 C 22.59375 -4.425781 19.796875 0 14.285156 0 C 8.476562 0 5.890625 -3.757812 5.890625 -14.535156 C 5.890625 -22.261719 8.226562 -28.066406 14.367188 -28.066406 C 20.632812 -28.066406 22.59375 -22.386719 22.59375 -13.867188 Z"/></g></g></g>
+        <g fill="#000000" fill-opacity="1"><g transform="translate(256.213165, 45.245373)"><g><path d="M 24.890625 -28.066406 L 18.460938 -28.066406 L 18.460938 -27.5625 L 21.382812 -27.5625 L 21.382812 -7.808594 L 21.257812 -7.808594 L 8.3125 -28.066406 L 0.460938 -28.066406 L 0.460938 -27.5625 L 3.382812 -27.5625 L 3.382812 -0.5 L 0.460938 -0.5 L 0.460938 0 L 6.890625 0 L 6.890625 -0.5 L 3.96875 -0.5 L 3.96875 -27.148438 L 4.09375 -27.148438 L 21.675781 0.542969 L 21.96875 0.542969 L 21.96875 -27.5625 L 24.890625 -27.5625 Z"/></g></g></g>
+        <g fill="#000000" fill-opacity="1"><g transform="translate(106.317763, 74.102748)"><g><path d="M 13.75 -4.65625 L 4.046875 -4.65625 L 1.96875 0 L 0.046875 0 L 8 -17.40625 L 9.8125 -17.40625 L 17.78125 0 L 15.828125 0 Z M 13.078125 -6.140625 L 8.90625 -15.484375 L 4.71875 -6.140625 Z"/></g></g></g>
+        <g fill="#000000" fill-opacity="1"><g transform="translate(123.890664, 74.102748)"><g><path d="M 10.390625 0.15625 C 8.671875 0.15625 7.117188 -0.222656 5.734375 -0.984375 C 4.347656 -1.753906 3.257812 -2.8125 2.46875 -4.15625 C 1.6875 -5.507812 1.296875 -7.023438 1.296875 -8.703125 C 1.296875 -10.378906 1.6875 -11.890625 2.46875 -13.234375 C 3.257812 -14.585938 4.347656 -15.644531 5.734375 -16.40625 C 7.128906 -17.164062 8.691406 -17.546875 10.421875 -17.546875 C 11.710938 -17.546875 12.90625 -17.332031 14 -16.90625 C 15.09375 -16.476562 16.019531 -15.847656 16.78125 -15.015625 L 15.609375 -13.84375 C 14.253906 -15.21875 12.539062 -15.90625 10.46875 -15.90625 C 9.09375 -15.90625 7.835938 -15.585938 6.703125 -14.953125 C 5.578125 -14.328125 4.695312 -13.46875 4.0625 -12.375 C 3.425781 -11.28125 3.109375 -10.054688 3.109375 -8.703125 C 3.109375 -7.335938 3.425781 -6.109375 4.0625 -5.015625 C 4.695312 -3.921875 5.578125 -3.054688 6.703125 -2.421875 C 7.835938 -1.796875 9.09375 -1.484375 10.46875 -1.484375 C 12.550781 -1.484375 14.265625 -2.179688 15.609375 -3.578125 L 16.78125 -2.40625 C 16.019531 -1.582031 15.085938 -0.945312 13.984375 -0.5 C 12.878906 -0.0625 11.679688 0.15625 10.390625 0.15625 Z"/></g></g></g>
+        <g fill="#000000" fill-opacity="1"><g transform="translate(141.538136, 74.102748)"><g><path d="M 6.21875 -15.8125 L 0.09375 -15.8125 L 0.09375 -17.40625 L 14.171875 -17.40625 L 14.171875 -15.8125 L 8.046875 -15.8125 L 8.046875 0 L 6.21875 0 Z"/></g></g></g>
+        <g fill="#000000" fill-opacity="1"><g transform="translate(155.805263, 74.102748)"><g><path d="M 2.828125 -17.40625 L 4.671875 -17.40625 L 4.671875 0 L 2.828125 0 Z"/></g></g></g>
+        <g fill="#000000" fill-opacity="1"><g transform="translate(163.1128, 74.102748)"><g><path d="M 17.296875 -17.40625 L 9.59375 0 L 7.78125 0 L 0.078125 -17.40625 L 2.0625 -17.40625 L 8.71875 -2.28125 L 15.4375 -17.40625 Z"/></g></g></g>
+        <g fill="#000000" fill-opacity="1"><g transform="translate(180.08916, 74.102748)"><g><path d="M 15.140625 -1.59375 L 15.140625 0 L 2.828125 0 L 2.828125 -17.40625 L 14.765625 -17.40625 L 14.765625 -15.8125 L 4.671875 -15.8125 L 4.671875 -9.625 L 13.671875 -9.625 L 13.671875 -8.046875 L 4.671875 -8.046875 L 4.671875 -1.59375 Z"/></g></g></g>
+        <path stroke-linecap="round" transform="matrix(0.745786,0,0,0.745786,20.891843,65.150979)" fill="none" d="M 0.501192 0.499417 L 109.67181 0.499417" stroke="#000000" stroke-width="1" stroke-opacity="1"/>
+        <path stroke-linecap="round" transform="matrix(0.745786,0,0,0.745786,199.988544,64.778086)" fill="none" d="M 0.502473 0.50183 L 109.667853 0.50183" stroke="#000000" stroke-width="1" stroke-opacity="1"/>
+      </svg>
+    </div>
+
+    <div class="card">
+      <p class="label" style="margin-bottom:10px;">Usage rules</p>
+      <div style="display:flex;flex-direction:column;gap:6px;font-size:13px;color:#333;line-height:1.7;">
+        <div>Always allow generous breathing room — minimum clear space = cap-height on all sides.</div>
+        <div>Never stretch, rotate, or alter the proportions of the letterforms.</div>
+        <div>Never recolour outside black, white, or silver-grey.</div>
+        <div>Always use white logo on photography — never black logo on dark imagery.</div>
+        <div>The heartbeat line graphic (on t-shirts) is a product mark — not used in digital UI contexts.</div>
+        <div>Files: LOGO_black.svg · LOGO_white.svg — use SVG at all sizes, never rasterise.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPACING -->
+  <div id="sec-spacing" class="section">
+    <p class="section-title">Spacing scale</p>
+    <div class="card row-mb">
+      <div class="space-row"><div class="space-bar" style="width:4px;"></div><span class="space-val">4px</span><span class="space-desc">Micro — icon gaps, tight label pairs</span></div>
+      <div class="space-row"><div class="space-bar" style="width:8px;"></div><span class="space-val">8px</span><span class="space-desc">XS — between badge and text, tag spacing</span></div>
+      <div class="space-row"><div class="space-bar" style="width:12px;"></div><span class="space-val">12px</span><span class="space-desc">SM — card inner gaps, button padding</span></div>
+      <div class="space-row"><div class="space-bar" style="width:16px;"></div><span class="space-val">16px</span><span class="space-desc">MD — standard component padding, list rows</span></div>
+      <div class="space-row"><div class="space-bar" style="width:24px;"></div><span class="space-val">24px</span><span class="space-desc">LG — card padding, between form fields</span></div>
+      <div class="space-row"><div class="space-bar" style="width:32px;"></div><span class="space-val">32px</span><span class="space-desc">XL — section breathing room</span></div>
+      <div class="space-row"><div class="space-bar" style="width:48px;"></div><span class="space-val">48px</span><span class="space-desc">2XL — major section gaps, hero padding</span></div>
+      <div class="space-row"><div class="space-bar" style="width:64px;"></div><span class="space-val">64px</span><span class="space-desc">3XL — full-page section dividers</span></div>
+    </div>
+    <p class="label">Border radius</p>
+    <div class="grid4">
+      <div class="card" style="text-align:center;border-radius:0;"><p style="font-size:12px;color:#888;">0px — Sharp</p></div>
+      <div class="card" style="text-align:center;border-radius:4px;"><p style="font-size:12px;color:#888;">4px — Subtle</p></div>
+      <div class="card" style="text-align:center;border-radius:8px;"><p style="font-size:12px;color:#888;">8px — Standard</p></div>
+      <div class="card" style="text-align:center;border-radius:999px;"><p style="font-size:12px;color:#888;">999px — Pill</p></div>
+    </div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div id="sec-components" class="section">
+    <p class="section-title">Components</p>
+    <p class="label">Buttons</p>
+    <div class="card" style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px;align-items:center;">
+      <span class="btn-primary">Shop now</span>
+      <span class="btn-secondary">View collection</span>
+      <span class="btn-ghost">Learn more</span>
+      <span class="btn-primary" style="opacity:.35;cursor:not-allowed;">Disabled</span>
+    </div>
+    <p class="label">Badges</p>
+    <div class="card" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;align-items:center;">
+      <span class="badge" style="background:#000;color:#fff;">New arrival</span>
+      <span class="badge" style="background:#F2F2F2;color:#333;border:1px solid #ddd;">In stock</span>
+      <span class="badge" style="background:#141975;color:#fff;">Navy</span>
+      <span class="badge" style="background:#4A6B97;color:#fff;">Steel blue</span>
+      <span class="badge" style="background:#D4A5A5;color:#5c2d2d;">Pink</span>
+      <span class="badge" style="background:#9CAF88;color:#2d3d24;">Sage</span>
+      <span class="badge" style="background:#C8B89A;color:#4d3e2a;">Sand</span>
+      <span class="badge" style="border:1px solid #000;color:#000;background:transparent;">Limited</span>
+    </div>
+    <p class="label">Product cards</p>
+    <div class="grid3 row-mb">
+      <div class="product-card">
+        <div class="product-card-img" style="background:#141975;color:#fff;">PRIME</div>
+        <div class="product-card-body"><div class="product-card-name">Prime Tee — Navy</div><div class="product-card-cat">T-Shirts · Deep navy #141975</div><div class="product-card-price">$60 AUD</div></div>
+      </div>
+      <div class="product-card">
+        <div class="product-card-img" style="background:#4A6B97;color:#fff;">PULSE</div>
+        <div class="product-card-body"><div class="product-card-name">Pulse Shorts — Steel blue</div><div class="product-card-cat">Short Leggings · Steel blue #4A6B97</div><div class="product-card-price">$74 AUD</div></div>
+      </div>
+      <div class="product-card">
+        <div class="product-card-img" style="background:#D4A5A5;color:#fff;">AURA</div>
+        <div class="product-card-body"><div class="product-card-name">Aura Leggings — Pink</div><div class="product-card-cat">Leggings · Dusty pink</div><div class="product-card-price">$89 AUD</div></div>
+      </div>
+    </div>
+    <p class="label">Colour swatches</p>
+    <div class="card" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+      <div style="width:30px;height:30px;border-radius:50%;background:#000;outline:2px solid #aaa;outline-offset:2px;cursor:pointer;" title="Black — selected"></div>
+      <div style="width:30px;height:30px;border-radius:50%;background:#fff;border:1px solid #ccc;cursor:pointer;" title="White"></div>
+      <div style="width:30px;height:30px;border-radius:50%;background:#141975;cursor:pointer;" title="Navy — Prime"></div>
+      <div style="width:30px;height:30px;border-radius:50%;background:#4A6B97;cursor:pointer;" title="Steel blue — Pulse"></div>
+      <div style="width:30px;height:30px;border-radius:50%;background:#D4A5A5;cursor:pointer;" title="Dusty Pink"></div>
+      <div style="width:30px;height:30px;border-radius:50%;background:#9CAF88;cursor:pointer;" title="Sage"></div>
+      <div style="width:30px;height:30px;border-radius:50%;background:#C8B89A;cursor:pointer;" title="Sand"></div>
+      <p style="font-size:12px;color:#888;margin-left:6px;">Ring = selected state</p>
+    </div>
+  </div>
+
+  <!-- COLLECTIONS -->
+  <div id="sec-collections" class="section">
+    <p class="section-title">Collections</p>
+    <div class="grid2 row-mb">
+      <div class="pillar-card" style="border-left:3px solid #000;"><div class="pillar-name">Aura</div><div class="pillar-tag">Leggings · Scrunch Bum Shorts</div><div class="pillar-desc">The signature collection. Smooth, minimal, full-coverage. Designed for yoga, pilates, and coastal walks.</div><div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;"><span class="badge" style="background:#000;color:#fff;">Black</span><span class="badge" style="background:#D4A5A5;color:#5c2d2d;">Pink</span></div></div>
+      <div class="pillar-card" style="border-left:3px solid #555;"><div class="pillar-name">Axis</div><div class="pillar-tag">Leggings</div><div class="pillar-desc">Performance meets polish. Structured waistband and clean seams for active and everyday wear.</div><div style="margin-top:10px;"><span class="badge" style="background:#F2F2F2;color:#333;border:1px solid #ddd;">TBC</span></div></div>
+      <div class="pillar-card" style="border-left:3px solid #4A6B97;"><div class="pillar-name">Pulse</div><div class="pillar-tag">Short Leggings</div><div class="pillar-desc">Shorter cut, full energy. Built for warm days, high movement, and everything in between.</div><div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;"><span class="badge" style="background:#000;color:#fff;">Black</span><span class="badge" style="background:#4A6B97;color:#fff;">Steel blue</span><span class="badge" style="background:#D4A5A5;color:#5c2d2d;">Pink</span></div></div>
+      <div class="pillar-card" style="border-left:3px solid #9CAF88;"><div class="pillar-name">Element</div><div class="pillar-tag">Wrap Racerback Sports Bra</div><div class="pillar-desc">V-neck racerback with wrap detail. Support and style for studio and outdoor movement.</div><div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;"><span class="badge" style="background:#000;color:#fff;">Black</span><span class="badge" style="background:#141975;color:#fff;">Navy</span><span class="badge" style="background:#D4A5A5;color:#5c2d2d;">Pink</span></div></div>
+      <div class="pillar-card" style="border-left:3px solid #C8B89A;"><div class="pillar-name">Ignite</div><div class="pillar-tag">Sports Bra · Leggings</div><div class="pillar-desc">Bold silhouette, calm palette. A set-ready collection for those who coordinate their movement.</div><div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;"><span class="badge" style="background:#000;color:#fff;">Black</span><span class="badge" style="background:#141975;color:#fff;">Navy</span><span class="badge" style="background:#D4A5A5;color:#5c2d2d;">Pink</span></div></div>
+      <div class="pillar-card" style="border-left:3px solid #141975;"><div class="pillar-name">Prime</div><div class="pillar-tag">T-Shirts — Women's & Men's</div><div class="pillar-desc">The logo tee — worn beyond the workout. Three colourways for women and men. Men's range shares the same lifestyle values, not a separate audience.</div><div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;"><span class="badge" style="background:#000;color:#fff;">Black</span><span class="badge" style="background:#fff;color:#333;border:1px solid #ccc;">White</span><span class="badge" style="background:#141975;color:#fff;">Navy</span></div></div>
+    </div>
+    <div class="grid2" style="margin-top:0;">
+      <div class="card"><p class="label" style="margin-bottom:8px;">Price range</p><div style="font-size:24px;font-weight:600;color:#000;">$60 – $120 AUD</div><div style="font-size:13px;color:#888;margin-top:4px;">Premium positioning. Never discount-led. Launch code LAUNCH20 is a one-time acquisition tool only.</div></div>
+      <div class="card"><p class="label" style="margin-bottom:8px;">Size range</p><div style="font-size:24px;font-weight:600;color:#000;">XS – XL</div><div style="font-size:13px;color:#888;margin-top:4px;">Five standard sizes across all collections. Consistent sizing across women's and men's cuts.</div></div>
+    </div>
+  </div>
+
+  <!-- SOCIAL ASSETS -->
+  <div id="sec-assets" class="section">
+    <p class="section-title">Social assets library</p>
+    <p class="label" style="margin-bottom:12px;">Folder structure</p>
+    <div class="card row-mb">
+      <div style="display:flex;flex-direction:column;gap:12px;font-size:13px;color:#333;">
+        <div style="display:flex;gap:10px;"><span style="font-size:18px;flex-shrink:0;">📂</span><div><strong>top views/</strong> — 7 best-performing assets. Reference for tone, layout, and copy style.</div></div>
+        <div style="display:flex;gap:10px;"><span style="font-size:18px;flex-shrink:0;">📂</span><div><strong>recent/</strong> — 7 latest published assets including April 28–30 reels and launch posts.</div></div>
+        <div style="display:flex;gap:10px;"><span style="font-size:18px;flex-shrink:0;">📂</span><div><strong>reels/</strong> — 5 video files: Full Motion Active Ad Reel, FMA_APRIL30, FMA_reel_april 28, 0424(1), A 10-minute mental reset.</div></div>
+        <div style="display:flex;gap:10px;"><span style="font-size:18px;flex-shrink:0;">📂</span><div><strong>carousel/</strong> — 6 series: April 1 (5 slides), April 2 (6 slides + reel assets), April 9 (5 slides), April 14 (4 slides), April 17 (5 slides), "Why we love everyday activewear" (5 slides).</div></div>
+      </div>
+    </div>
+    <p class="label" style="margin-bottom:12px;">Top-performing posts</p>
+    <div class="grid3 row-mb">
+      <div class="post-card"><div class="post-thumb" style="background:#c4a4a0;color:#fff;font-weight:700;font-size:13px;letter-spacing:.04em;text-align:center;">MOVEMENT<br>IS THERAPY.</div><div class="post-label">Movement is therapy</div><div class="post-sub">Static · Pillar: Breathe</div></div>
+      <div class="post-card"><div class="post-thumb" style="background:#2a2e35;color:#fff;font-weight:700;font-size:12px;letter-spacing:.02em;text-align:center;">STOP COMPARING.<br>START MOVING</div><div class="post-label">Stop comparing. Start moving.</div><div class="post-sub">Static · Pillar: Breathe</div></div>
+      <div class="post-card"><div class="post-thumb" style="background:#b8c9d4;color:#fff;font-weight:700;font-size:18px;letter-spacing:.04em;text-align:center;">COMING<br>SOON<br><span style="font-size:10px;letter-spacing:.1em;font-weight:500;">11 MAY 2026</span></div><div class="post-label">Coming soon</div><div class="post-sub">Static · Launch · Pillar: Wear</div></div>
+      <div class="post-card"><div class="post-thumb" style="background:#3A5060;color:#fff;font-weight:700;font-size:14px;letter-spacing:.02em;text-align:center;">SOMETHING'S<br>COMING.<br><span style="font-size:12px;">20% OFF</span></div><div class="post-label">20% off launch discount</div><div class="post-sub">Static · Launch · Pillar: Wear</div></div>
+      <div class="post-card"><div class="post-thumb" style="background:#4a5a4a;color:#fff;font-weight:600;font-size:12px;letter-spacing:.06em;text-align:center;">REEL<br><span style="font-size:11px;margin-top:4px;">10-MIN MENTAL RESET</span></div><div class="post-label">A 10-minute mental reset</div><div class="post-sub">Video reel · Pillar: Breathe</div></div>
+      <div class="post-card"><div class="post-thumb" style="background:#c5d0c8;color:#fff;font-weight:600;font-size:12px;letter-spacing:.04em;text-align:center;">REEL<br><span style="font-size:11px;margin-top:4px;">APRIL 30</span></div><div class="post-label">FMA Reel — April 30</div><div class="post-sub">Video reel · Pillar: Move / Wear</div></div>
+    </div>
+    <p class="label" style="margin-bottom:12px;">Platform & handles</p>
+    <div class="card row-mb">
+      <div style="display:flex;flex-direction:column;gap:10px;font-size:13px;color:#333;">
+        <div style="display:flex;justify-content:space-between;align-items:center;"><div><strong>Instagram</strong> — primary growth platform<br><span style="font-size:12px;color:#888;">@fullmotionactive · Reels + feed posts + carousels</span></div><span class="badge" style="background:#000;color:#fff;">Primary</span></div>
+        <div style="border-top:1px solid #eee;padding-top:10px;display:flex;justify-content:space-between;align-items:center;"><div><strong>Facebook</strong> — supporting platform<br><span style="font-size:12px;color:#888;">Full Motion Active · Cross-posted content</span></div><span class="badge" style="background:#F2F2F2;color:#333;border:1px solid #ddd;">Supporting</span></div>
+        <div style="border-top:1px solid #eee;padding-top:10px;display:flex;justify-content:space-between;align-items:center;"><div><strong>Shopify store</strong> — launching 11 May 2026<br><span style="font-size:12px;color:#888;">fullmotionau.com.au</span></div><span class="badge" style="background:#F2F2F2;color:#333;border:1px solid #ddd;">E-commerce</span></div>
+      </div>
+    </div>
+    <p class="label" style="margin-bottom:12px;">Visual style — observed patterns</p>
+    <div class="card">
+      <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:#333;line-height:1.7;">
+        <div>Bold condensed-weight type fills the frame width on static posts — text is the hero, not a caption.</div>
+        <div>White logo lockup always bottom-left; website URL bottom-right on all static posts.</div>
+        <div>Coastal and outdoor photography — warm natural tones, golden light, Perth-evoking locations.</div>
+        <div>Dark overlays on photography posts ensure white logo/text remains legible.</div>
+        <div>Dusty pink and blue product shots use clean white or neutral studio backgrounds.</div>
+        <div>Reels are lifestyle-first — movement, mindset messaging, or ambient coastal scenes. Never salesy.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STRATEGY -->
+  <div id="sec-strategy" class="section">
+    <p class="section-title">Brand strategy</p>
+
+    <p class="label" style="margin-bottom:12px;">Positioning</p>
+    <div class="card row-mb">
+      <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:#333;line-height:1.7;">
+        <div><strong>We are:</strong> A Western Australian lifestyle activewear brand built around mental wellbeing through movement. Calm, premium, coastal.</div>
+        <div><strong>We are not:</strong> Gymshark. We don't sell performance metrics, body transformation, or gym culture. No hustle language. No before/after content.</div>
+        <div><strong>Price positioning:</strong> $60–$120 AUD premium. Value is in quality and brand identity — never compete on price.</div>
+        <div><strong>Launch phase:</strong> Perth-led. Then national Australia. Then international expansion.</div>
+      </div>
+    </div>
+
+    <p class="label" style="margin-bottom:12px;">Target audience</p>
+    <div class="grid2" style="margin-bottom:24px;">
+      <div class="card">
+        <p style="font-size:14px;font-weight:600;margin-bottom:8px;">Primary — women 25–45</p>
+        <div style="font-size:13px;color:#666;line-height:1.6;">Active, health-conscious, lifestyle-led. Yoga, jogging, coastal walks, pilates. Values wellbeing, mental health, time outdoors. Follows brands that match her values — not just her wardrobe.</div>
+      </div>
+      <div class="card">
+        <p style="font-size:14px;font-weight:600;margin-bottom:8px;">Secondary — men (Prime range)</p>
+        <div style="font-size:13px;color:#666;line-height:1.6;">Same lifestyle values, different cut. Not a separate audience segment — men who share the movement-as-wellbeing philosophy. No separate messaging required at launch.</div>
+      </div>
+    </div>
+
+    <p class="label" style="margin-bottom:12px;">Pre-launch strategy (now → 11 May 2026)</p>
+    <div class="card row-mb">
+      <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:#333;line-height:1.7;">
+        <div><strong>Dual CTA approach:</strong> Awareness posts (Breathe + Live + Move pillars) build brand recognition. Sign-up posts drive the email list with LAUNCH20 as the incentive.</div>
+        <div><strong>Launch discount:</strong> Code <strong>LAUNCH20</strong> — 20% off. One-time acquisition tool. Does not set a discount-led precedent.</div>
+        <div><strong>Email marketing:</strong> Not yet configured. Priority post-launch — build Klaviyo welcome flow + abandoned cart sequence.</div>
+        <div><strong>Influencer plan:</strong> Perth-based micro influencers aligned with coastal/lifestyle/wellness values. Activate around or after launch date.</div>
+      </div>
+    </div>
+
+    <p class="label" style="margin-bottom:12px;">Shopify product copy approach</p>
+    <div class="card row-mb">
+      <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:#333;line-height:1.7;">
+        <div><strong>Structure:</strong> Short punchy headline → then practical detail (fabric, fit, care).</div>
+        <div><strong>Example headline:</strong> "Designed to move with you — not against you."</div>
+        <div><strong>Then:</strong> Fabric composition, sizing guidance, care instructions — factual, concise, confident.</div>
+        <div><strong>Never:</strong> Transformation language, body-aesthetic claims, or superlatives like "the best legging you'll ever own."</div>
+      </div>
+    </div>
+
+    <p class="label" style="margin-bottom:12px;">Pending / to be confirmed</p>
+    <div class="card">
+      <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:#333;line-height:1.7;">
+        <div style="display:flex;gap:8px;align-items:flex-start;"><span style="background:#fff3cd;color:#856404;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:600;flex-shrink:0;white-space:nowrap;">PENDING</span><span>Packaging — tags, mailer boxes, tissue paper. Jeremy to upload assets after this session.</span></div>
+        <div style="display:flex;gap:8px;align-items:flex-start;"><span style="background:#fff3cd;color:#856404;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:600;flex-shrink:0;white-space:nowrap;">PENDING</span><span>Brand motif / graphic element — beyond the heartbeat line. Still being designed.</span></div>
+        <div style="display:flex;gap:8px;align-items:flex-start;"><span style="background:#fff3cd;color:#856404;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:600;flex-shrink:0;white-space:nowrap;">PENDING</span><span>Photography style guide — Lightroom preset, model direction, location brief. Being developed.</span></div>
+        <div style="display:flex;gap:8px;align-items:flex-start;"><span style="background:#fff3cd;color:#856404;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:600;flex-shrink:0;white-space:nowrap;">PENDING</span><span>Email flows — Klaviyo welcome, abandoned cart, post-purchase. Priority post-launch.</span></div>
+        <div style="display:flex;gap:8px;align-items:flex-start;"><span style="background:#fff3cd;color:#856404;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:600;flex-shrink:0;white-space:nowrap;">PENDING</span><span>Axis collection colourways — TBC.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VOICE -->
+  <div id="sec-voice" class="section">
+    <p class="section-title">Brand voice</p>
+    <p class="label" style="margin-bottom:12px;">Voice characteristics</p>
+    <div class="grid2 row-mb">
+      <div class="card">
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;background:#000;border-radius:50%;flex-shrink:0;"></span><span style="font-size:13px;">Warm but not soft</span></div>
+          <div style="display:flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;background:#000;border-radius:50%;flex-shrink:0;"></span><span style="font-size:13px;">Calm but spirited</span></div>
+          <div style="display:flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;background:#000;border-radius:50%;flex-shrink:0;"></span><span style="font-size:13px;">Encouraging — never preachy</span></div>
+          <div style="display:flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;background:#000;border-radius:50%;flex-shrink:0;"></span><span style="font-size:13px;">Grounded in real life, not aspirational performance</span></div>
+          <div style="display:flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;background:#000;border-radius:50%;flex-shrink:0;"></span><span style="font-size:13px;">Confident in fewer words</span></div>
+        </div>
+      </div>
+      <div class="card" style="background:#F2F2F2;border:none;">
+        <p style="font-size:15px;color:#333;line-height:1.7;font-style:italic;">"Progress is made by those who never stop moving."</p>
+        <p style="font-size:12px;color:#888;margin-top:8px;">Brand tagline — use sparingly for maximum impact.</p>
+      </div>
+    </div>
+    <p class="label" style="margin-bottom:12px;">We say this</p>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:24px;">
+      <div class="voice-row"><span class="voice-tag do-tag">do</span><span class="voice-copy">"Move how it feels right today."</span></div>
+      <div class="voice-row"><span class="voice-tag do-tag">do</span><span class="voice-copy">"Stillness in motion."</span></div>
+      <div class="voice-row"><span class="voice-tag do-tag">do</span><span class="voice-copy">"Movement is therapy."</span></div>
+      <div class="voice-row"><span class="voice-tag do-tag">do</span><span class="voice-copy">"Take the long walk."</span></div>
+      <div class="voice-row"><span class="voice-tag do-tag">do</span><span class="voice-copy">"Your mind moves with you."</span></div>
+    </div>
+    <p class="label" style="margin-bottom:12px;">We never say this</p>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:24px;">
+      <div class="voice-row"><span class="voice-tag dont-tag">don't</span><span class="voice-copy">"Crush your goals" / "No excuses" / "No days off"</span></div>
+      <div class="voice-row"><span class="voice-tag dont-tag">don't</span><span class="voice-copy">Body-aesthetic language: toned, shredded, bikini body</span></div>
+      <div class="voice-row"><span class="voice-tag dont-tag">don't</span><span class="voice-copy">Aggressive hustle culture or "grind" tone</span></div>
+      <div class="voice-row"><span class="voice-tag dont-tag">don't</span><span class="voice-copy">Clinical or medical mental health language</span></div>
+    </div>
+    <p class="label" style="margin-bottom:12px;">Content pillars</p>
+    <div class="grid4">
+      <div class="pillar-card"><div class="pillar-name">Move</div><div class="pillar-tag">2× / week</div><div class="pillar-desc">Movement & fitness inspiration. Coastal jogs, morning yoga, outdoor activity.</div></div>
+      <div class="pillar-card"><div class="pillar-name">Breathe</div><div class="pillar-tag">2× / week</div><div class="pillar-desc">Mental health & mindset. Stillness, emotional strength, healing through movement.</div></div>
+      <div class="pillar-card"><div class="pillar-name">Live</div><div class="pillar-tag">1–2× / week</div><div class="pillar-desc">Perth & outdoor lifestyle. Coastal walks, golden light, open spaces of WA.</div></div>
+      <div class="pillar-card"><div class="pillar-name">Wear</div><div class="pillar-tag">1–2× / week</div><div class="pillar-desc">Product & collection highlights. Clean, confident — never salesy.</div></div>
+    </div>
+  </div>
+
+</div>
+<script>
+document.getElementById('nav').addEventListener('click', e => {
+  if (!e.target.dataset.sec) return;
+  document.querySelectorAll('.ds-nav button').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('sec-' + e.target.dataset.sec).classList.add('active');
+});
+</script>
+</body>
+</html>
